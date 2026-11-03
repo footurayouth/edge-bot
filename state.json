@@ -1,0 +1,193 @@
+{
+ "days": {
+  "2026-11-02": {
+   "attempts": 0,
+   "date": "2026-11-02",
+   "targets": {
+    "MES": 0,
+    "MNQ": 2,
+    "M2K": 0,
+    "MYM": 3
+   },
+   "exact": {
+    "MES": 0.0,
+    "MNQ": 2.39,
+    "M2K": 0.0,
+    "MYM": 3.28
+   },
+   "alerts": [
+    "SIZE: whole contracts give 1.67x vs the backtest's 1.93x. The account is too small for this preset (README: Setup) - expect results well below the backtest, or use the small-account route."
+   ],
+   "capital_usd": 113745.4578569007,
+   "signal": {
+    "trend": {
+     "f": 0.429,
+     "x": 0.43,
+     "ndx": 27989.8,
+     "rv20": 22.5,
+     "above_smas": "3/7"
+    },
+    "ibs": {
+     "held": {
+      "QQQ": "0 days",
+      "DIA": "0 days"
+     },
+     "regime_on": true,
+     "today_ibs": {
+      "SPY": 0.045,
+      "QQQ": 0.04,
+      "IWM": 0.07,
+      "DIA": 0.042
+     },
+     "actions": [
+      {
+       "etf": "QQQ",
+       "action": "BUY",
+       "why": "IBS 0.040"
+      },
+      {
+       "etf": "DIA",
+       "action": "BUY",
+       "why": "IBS 0.042"
+      }
+     ]
+    },
+    "monthend": {
+     "days_left": 19,
+     "s_pct": -0.34,
+     "mes_x": 0.0,
+     "provisional": "LONG"
+    },
+    "gross_x": 1.93,
+    "gross_rounded_x": 1.67
+   },
+   "held_before": {},
+   "orders": [
+    {
+     "symbol": "MNQ",
+     "expiry": "20261218",
+     "action": "BUY",
+     "qty": 2.0,
+     "status": "Filled",
+     "filled": 2.0,
+     "avg_price": 28233.25,
+     "commission_usd": 1.22,
+     "realized_pnl_usd": 0.0,
+     "why": "target 2, held 0"
+    },
+    {
+     "symbol": "MYM",
+     "expiry": "20261218",
+     "action": "BUY",
+     "qty": 3.0,
+     "status": "Filled",
+     "filled": 3.0,
+     "avg_price": 52167.0,
+     "commission_usd": 1.83,
+     "realized_pnl_usd": 0.0,
+     "why": "target 3, held 0"
+    }
+   ],
+   "held_after": {
+    "MNQ": 2,
+    "MYM": 3
+   },
+   "status": "done"
+  }
+ },
+ "last_run": "2026-11-02 16:24 NY",
+ "last": {
+  "attempts": 0,
+  "date": "2026-11-02",
+  "targets": {
+   "MES": 0,
+   "MNQ": 2,
+   "M2K": 0,
+   "MYM": 3
+  },
+  "exact": {
+   "MES": 0.0,
+   "MNQ": 2.39,
+   "M2K": 0.0,
+   "MYM": 3.28
+  },
+  "alerts": [
+   "SIZE: whole contracts give 1.67x vs the backtest's 1.93x. The account is too small for this preset (README: Setup) - expect results well below the backtest, or use the small-account route."
+  ],
+  "capital_usd": 113745.4578569007,
+  "signal": {
+   "trend": {
+    "f": 0.429,
+    "x": 0.43,
+    "ndx": 27989.8,
+    "rv20": 22.5,
+    "above_smas": "3/7"
+   },
+   "ibs": {
+    "held": {
+     "QQQ": "0 days",
+     "DIA": "0 days"
+    },
+    "regime_on": true,
+    "today_ibs": {
+     "SPY": 0.045,
+     "QQQ": 0.04,
+     "IWM": 0.07,
+     "DIA": 0.042
+    },
+    "actions": [
+     {
+      "etf": "QQQ",
+      "action": "BUY",
+      "why": "IBS 0.040"
+     },
+     {
+      "etf": "DIA",
+      "action": "BUY",
+      "why": "IBS 0.042"
+     }
+    ]
+   },
+   "monthend": {
+    "days_left": 19,
+    "s_pct": -0.34,
+    "mes_x": 0.0,
+    "provisional": "LONG"
+   },
+   "gross_x": 1.93,
+   "gross_rounded_x": 1.67
+  },
+  "held_before": {},
+  "orders": [
+   {
+    "symbol": "MNQ",
+    "expiry": "20261218",
+    "action": "BUY",
+    "qty": 2.0,
+    "status": "Filled",
+    "filled": 2.0,
+    "avg_price": 28233.25,
+    "commission_usd": 1.22,
+    "realized_pnl_usd": 0.0,
+    "why": "target 2, held 0"
+   },
+   {
+    "symbol": "MYM",
+    "expiry": "20261218",
+    "action": "BUY",
+    "qty": 3.0,
+    "status": "Filled",
+    "filled": 3.0,
+    "avg_price": 52167.0,
+    "commission_usd": 1.83,
+    "realized_pnl_usd": 0.0,
+    "why": "target 3, held 0"
+   }
+  ],
+  "held_after": {
+   "MNQ": 2,
+   "MYM": 3
+  },
+  "status": "done"
+ }
+}
