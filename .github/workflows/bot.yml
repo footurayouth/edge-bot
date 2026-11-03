@@ -1,0 +1,79 @@
+name: Edge Stack paper bot
+# Every US trading day: starts IB Gateway (paper, logs in by itself with the IB_USER / IB_PASSWORD secrets), runs the
+# bot through the 16:20-16:55 New York window (13:05-13:14 on half days), saves state + logs back to this repo.
+on:
+  schedule:                            # GitHub runs these in UTC and often a few minutes late; extra ones exit at once
+    - cron: "7 20 * * 1-5"             # 16:07 New York, summer time
+    - cron: "7 21 * * 1-5"             # 16:07 New York, winter time
+    - cron: "47 16 * * 1-5"            # 12:47 New York, summer (half days)
+    - cron: "47 17 * * 1-5"            # 12:47 New York, winter (half days)
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "run = normal (only trades inside the window); test = connect now and show orders, send nothing"
+        type: choice
+        options: [test, run]
+        default: test
+permissions:
+  contents: write
+concurrency:
+  group: edge-bot
+  cancel-in-progress: false
+jobs:
+  bot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    env:
+      MODE: ${{ inputs.mode || 'run' }}
+    steps:
+      - name: Near the trading window? (quick check before installing anything)
+        id: rough
+        run: |
+          go=$(python3 -c "
+          import datetime as d, zoneinfo
+          n = d.datetime.now(zoneinfo.ZoneInfo('America/New_York')); m = n.hour * 60 + n.minute
+          print(1 if n.weekday() < 5 and (760 <= m < 794 or 955 <= m < 1015) else 0)")
+          [ "$MODE" = test ] && go=1
+          echo "go=$go" >> "$GITHUB_OUTPUT"; echo "go=$go mode=$MODE"
+      - uses: actions/checkout@v4
+        if: steps.rough.outputs.go == '1'
+      - uses: actions/setup-python@v5
+        if: steps.rough.outputs.go == '1'
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install
+        if: steps.rough.outputs.go == '1'
+        run: pip install -q -r requirements.txt
+      - name: Trading day and time? (holidays, half days)
+        id: when
+        if: steps.rough.outputs.go == '1'
+        run: python cloud_run.py --check $([ "$MODE" = test ] && echo --force) >> "$GITHUB_OUTPUT"
+      - name: Start IB Gateway (paper)
+        if: steps.when.outputs.go == '1'
+        env:
+          TWS_USERID: ${{ secrets.IB_USER }}
+          TWS_PASSWORD: ${{ secrets.IB_PASSWORD }}
+        run: |
+          docker run -d --name ibg -p 127.0.0.1:4002:4004 \
+            -e TWS_USERID -e TWS_PASSWORD -e TRADING_MODE=paper -e READ_ONLY_API=no \
+            -e EXISTING_SESSION_DETECTED_ACTION=primary -e TWOFA_TIMEOUT_ACTION=exit -e BYPASS_WARNING=yes \
+            -e TIME_ZONE=America/New_York ghcr.io/gnzsnz/ib-gateway:stable
+      - name: Wait for the IBKR login
+        if: steps.when.outputs.go == '1'
+        run: python cloud_run.py --wait || (docker logs --tail 60 ibg; exit 1)
+      - name: Test (no orders)
+        if: steps.when.outputs.go == '1' && env.MODE == 'test'
+        run: python cloud_run.py --test
+      - name: Trade
+        if: steps.when.outputs.go == '1' && env.MODE == 'run'
+        run: python cloud_run.py
+      - name: Save state and logs to this repo
+        if: always() && steps.when.outputs.go == '1' && env.MODE == 'run'
+        run: |
+          git config user.name "edge-bot"; git config user.email "edge-bot@users.noreply.github.com"
+          git add -A
+          git commit -qm "bot run $(date -u +%F)" && (git push -q || (git pull -q --rebase && git push -q)) || echo "nothing to save"
+      - name: Summary
+        if: always() && steps.when.outputs.go == '1'
+        run: python cloud_run.py --summary >> "$GITHUB_STEP_SUMMARY" || true

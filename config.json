@@ -1,0 +1,11 @@
+{
+ "preset": "conservative",
+ "host": "127.0.0.1",
+ "port": 4002,
+ "client_id": 71,
+ "account": "",
+ "capital_usd": null,
+ "dry_run": false,
+ "roll_days": 8,
+ "max_contracts": {"MES": 25, "MNQ": 25, "M2K": 25, "MYM": 25}
+}

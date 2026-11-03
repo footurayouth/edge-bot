@@ -1,0 +1,7 @@
+pandas==2.3.1
+numpy==2.3.2
+pyarrow==26.0.0
+yfinance==0.2.66
+curl_cffi==0.17.0
+requests==2.34.2
+ib_async==2.1.0
