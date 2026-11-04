@@ -1,3 +1,4 @@
 date,action,holding,equity_usd,day_pnl_usd,total_pnl_usd,total_pct,spy_close,spy_total_pct,realized_pnl_usd,commissions_usd
 2026-11-02,BUY 2 MNQ 20261218; BUY 3 MYM 20261218,"+2 MNQ, +3 MYM",113740.51,0.0,0.0,0.0,752.15,0.0,0.0,3.05
 2026-11-03,HOLD,"+2 MNQ, +3 MYM",114239.8,499.29,499.29,0.44,754.35,0.29,0,0
+2026-11-04,SELL 1 MNQ 20261218; SELL 3 MYM 20261218,+1 MNQ,118058.64,3818.84,4318.13,3.8,766.82,1.95,2933.12,2.44

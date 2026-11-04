@@ -1,3 +1,5 @@
 time,symbol,expiry,action,qty,status,filled,avg_price,commission_usd,realized_pnl_usd,why
 2026-11-02 16:24,MNQ,20261218,BUY,2.0,Filled,2.0,28233.25,1.22,0.0,"target 2, held 0"
 2026-11-02 16:24,MYM,20261218,BUY,3.0,Filled,3.0,52167.0,1.83,0.0,"target 3, held 0"
+2026-11-04 16:28,MNQ,20261218,SELL,1.0,Filled,1.0,28636.5,0.61,805.28,"target 1, held 2"
+2026-11-04 16:28,MYM,20261218,SELL,3.0,Filled,3.0,53588.0,1.83,2127.84,"target 0, held 3"

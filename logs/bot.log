@@ -6,3 +6,7 @@
 2026-11-03 21:43:15,694 INFO signal date 2026-11-03; targets {'MES': 0, 'MNQ': 2, 'M2K': 0, 'MYM': 3} (exact {'MES': 0.0, 'MNQ': 2.39, 'M2K': 0.0, 'MYM': 3.31}); trend 0.429; alerts ["SIZE: whole contracts give 1.67x vs the backtest's 1.93x. The account is too small for this preset (README: Setup) - expect results well below the backtest, or use the small-account route."]
 2026-11-03 21:43:16,027 INFO held {'MYM': 3, 'MNQ': 2}; cancelled 0 open orders; orders: none
 2026-11-03 21:43:19,030 INFO after: {'MYM': 3, 'MNQ': 2} -> done
+2026-11-04 21:28:54,710 INFO connected: paper account DU7074769, net liquidation 105,112 EUR = $118,063
+2026-11-04 21:28:58,776 INFO signal date 2026-11-04; targets {'MES': 0, 'MNQ': 1, 'M2K': 0, 'MYM': 0} (exact {'MES': 0.0, 'MNQ': 1.19, 'M2K': 0.0, 'MYM': 0.0}); trend 0.571; alerts []
+2026-11-04 21:28:59,256 INFO held {'MYM': 3, 'MNQ': 2}; cancelled 0 open orders; orders: SELL 1 MNQ 20261218 (target 1, held 2); SELL 3 MYM 20261218 (target 0, held 3)
+2026-11-04 21:29:03,262 INFO after: {'MNQ': 1} -> done
