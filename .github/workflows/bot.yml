@@ -2,11 +2,11 @@ name: Edge Stack paper bot
 # Every US trading day: starts IB Gateway (paper, logs in by itself with the IB_USER / IB_PASSWORD secrets), runs the
 # bot through the 16:20-16:55 New York window (13:05-13:14 on half days), saves state + logs back to this repo.
 on:
-  schedule:                            # GitHub runs these in UTC and often a few minutes late; extra ones exit at once
-    - cron: "7 20 * * 1-5"             # 16:07 New York, summer time
-    - cron: "7 21 * * 1-5"             # 16:07 New York, winter time
-    - cron: "47 16 * * 1-5"            # 12:47 New York, summer (half days)
-    - cron: "47 17 * * 1-5"            # 12:47 New York, winter (half days)
+  schedule:                            # GitHub runs these in UTC and often 30-50 minutes late, so there are many; a run
+                                       # that lands outside the window, or after the day is done, exits within seconds
+    - cron: "*/10 19-21 * * 1-5"       # 14:00-16:50 New York in winter, 15:00-17:50 in summer (window 16:20-16:55)
+    - cron: "*/5 16-18 26,27 11 *"     # half days (window 13:05-13:14): day after Thanksgiving
+    - cron: "*/5 16-18 24 12 *"        #                                 Christmas Eve
   workflow_dispatch:
     inputs:
       mode:
@@ -26,17 +26,20 @@ jobs:
     env:
       MODE: ${{ inputs.mode || 'run' }}
     steps:
-      - name: Near the trading window? (quick check before installing anything)
+      - uses: actions/checkout@v4
+        with:
+          ref: main                    # latest state, also when an earlier run today committed after this one was queued
+      - name: Near the trading window and not done yet? (quick check before installing anything)
         id: rough
         run: |
           go=$(python3 -c "
-          import datetime as d, zoneinfo
+          import datetime as d, zoneinfo, json
           n = d.datetime.now(zoneinfo.ZoneInfo('America/New_York')); m = n.hour * 60 + n.minute
-          print(1 if n.weekday() < 5 and (760 <= m < 794 or 955 <= m < 1015) else 0)")
+          day = json.load(open('state.json')).get('days', {}).get(str(n.date()), {})
+          over = day.get('status') in ('done', 'dry_run') or day.get('attempts', 0) >= 3     # bot.MAX_ATTEMPTS
+          print(1 if n.weekday() < 5 and not over and (760 <= m < 794 or 955 <= m < 1015) else 0)")
           [ "$MODE" = test ] && go=1
           echo "go=$go" >> "$GITHUB_OUTPUT"; echo "go=$go mode=$MODE"
-      - uses: actions/checkout@v4
-        if: steps.rough.outputs.go == '1'
       - uses: actions/setup-python@v5
         if: steps.rough.outputs.go == '1'
         with:
