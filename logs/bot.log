@@ -18,3 +18,7 @@
 2026-11-06 21:20:11,374 INFO signal date 2026-11-06; targets {'MES': 0, 'MNQ': 2, 'M2K': 0, 'MYM': 3} (exact {'MES': 0.0, 'MNQ': 1.6, 'M2K': 0.0, 'MYM': 3.37}); trend 0.0; alerts []
 2026-11-06 21:20:11,848 INFO held {'MYM': 3, 'MNQ': 2}; cancelled 0 open orders; orders: none
 2026-11-06 21:20:14,850 INFO after: {'MYM': 3, 'MNQ': 2} -> done
+2026-11-09 21:30:47,138 INFO connected: paper account DU7074769, net liquidation 107,968 EUR = $121,203
+2026-11-09 21:30:52,377 INFO signal date 2026-11-09; targets {'MES': 0, 'MNQ': 0, 'M2K': 0, 'MYM': 0} (exact {'MES': 0.0, 'MNQ': 0.12, 'M2K': 0.0, 'MYM': 0.0}); trend 0.057; alerts []
+2026-11-09 21:30:52,917 INFO held {'MYM': 3, 'MNQ': 2}; cancelled 0 open orders; orders: SELL 2 MNQ 20261218 (target 0, held 2); SELL 3 MYM 20261218 (target 0, held 3)
+2026-11-09 21:30:56,921 INFO after: {} -> done
