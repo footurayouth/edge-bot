@@ -537,12 +537,62 @@
    "orders": [],
    "held_after": {},
    "status": "done"
+  },
+  "2026-11-11": {
+   "attempts": 0,
+   "date": "2026-11-11",
+   "targets": {
+    "MES": 0,
+    "MNQ": 0,
+    "M2K": 0,
+    "MYM": 0
+   },
+   "exact": {
+    "MES": 0.0,
+    "MNQ": 0.0,
+    "M2K": 0.0,
+    "MYM": 0.0
+   },
+   "alerts": [],
+   "capital_usd": 119818.05844480993,
+   "signal": {
+    "trend": {
+     "f": 0.0,
+     "x": 0.0,
+     "ndx": 28374.3,
+     "rv20": 35.6,
+     "above_smas": "3/7"
+    },
+    "ibs": {
+     "held": {},
+     "regime_on": true,
+     "today_ibs": {
+      "SPY": 0.649,
+      "QQQ": 0.566,
+      "IWM": 0.705,
+      "DIA": 0.958
+     },
+     "actions": []
+    },
+    "monthend": {
+     "days_left": 12,
+     "s_pct": 1.67,
+     "mes_x": 0.0,
+     "provisional": "SHORT"
+    },
+    "gross_x": 0.0,
+    "gross_rounded_x": 0.0
+   },
+   "held_before": {},
+   "orders": [],
+   "held_after": {},
+   "status": "done"
   }
  },
- "last_run": "2026-11-10 16:20 NY",
+ "last_run": "2026-11-11 16:24 NY",
  "last": {
   "attempts": 0,
-  "date": "2026-11-10",
+  "date": "2026-11-11",
   "targets": {
    "MES": 0,
    "MNQ": 0,
@@ -551,38 +601,38 @@
   },
   "exact": {
    "MES": 0.0,
-   "MNQ": 0.12,
+   "MNQ": 0.0,
    "M2K": 0.0,
    "MYM": 0.0
   },
   "alerts": [],
-  "capital_usd": 120582.29883120656,
+  "capital_usd": 119818.05844480993,
   "signal": {
    "trend": {
-    "f": 0.057,
-    "x": 0.06,
-    "ndx": 27740.8,
-    "rv20": 34.8,
-    "above_smas": "2/7"
+    "f": 0.0,
+    "x": 0.0,
+    "ndx": 28374.3,
+    "rv20": 35.6,
+    "above_smas": "3/7"
    },
    "ibs": {
     "held": {},
     "regime_on": true,
     "today_ibs": {
-     "SPY": 0.695,
-     "QQQ": 0.555,
-     "IWM": 0.775,
-     "DIA": 0.747
+     "SPY": 0.649,
+     "QQQ": 0.566,
+     "IWM": 0.705,
+     "DIA": 0.958
     },
     "actions": []
    },
    "monthend": {
-    "days_left": 13,
-    "s_pct": 0.41,
+    "days_left": 12,
+    "s_pct": 1.67,
     "mes_x": 0.0,
     "provisional": "SHORT"
    },
-   "gross_x": 0.06,
+   "gross_x": 0.0,
    "gross_rounded_x": 0.0
   },
   "held_before": {},
