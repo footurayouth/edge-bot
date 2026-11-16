@@ -738,12 +738,71 @@
     "M2K": 6
    },
    "status": "done"
+  },
+  "2026-11-16": {
+   "attempts": 0,
+   "date": "2026-11-16",
+   "targets": {
+    "MES": 0,
+    "MNQ": 0,
+    "M2K": 6,
+    "MYM": 3
+   },
+   "exact": {
+    "MES": 0.0,
+    "MNQ": 0.0,
+    "M2K": 6.35,
+    "MYM": 3.37
+   },
+   "alerts": [],
+   "capital_usd": 116041.94853856682,
+   "signal": {
+    "trend": {
+     "f": 0.0,
+     "x": 0.0,
+     "ndx": 27197.2,
+     "rv20": 35.5,
+     "above_smas": "0/7"
+    },
+    "ibs": {
+     "held": {
+      "DIA": "2 days",
+      "IWM": "2 days"
+     },
+     "regime_on": true,
+     "today_ibs": {
+      "SPY": 0.161,
+      "QQQ": 0.109,
+      "IWM": 0.214,
+      "DIA": 0.117
+     },
+     "actions": []
+    },
+    "monthend": {
+     "days_left": 9,
+     "s_pct": 0.51,
+     "mes_x": 0.0,
+     "provisional": "SHORT"
+    },
+    "gross_x": 1.5,
+    "gross_rounded_x": 1.38
+   },
+   "held_before": {
+    "MYM": 3,
+    "M2K": 6
+   },
+   "orders": [],
+   "held_after": {
+    "MYM": 3,
+    "M2K": 6
+   },
+   "status": "done"
   }
  },
- "last_run": "2026-11-13 16:29 NY",
+ "last_run": "2026-11-16 16:28 NY",
  "last": {
   "attempts": 0,
-  "date": "2026-11-13",
+  "date": "2026-11-16",
   "targets": {
    "MES": 0,
    "MNQ": 0,
@@ -752,42 +811,42 @@
   },
   "exact": {
    "MES": 0.0,
-   "MNQ": 0.12,
-   "M2K": 6.36,
-   "MYM": 3.39
+   "MNQ": 0.0,
+   "M2K": 6.35,
+   "MYM": 3.37
   },
   "alerts": [],
-  "capital_usd": 118349.68316813589,
+  "capital_usd": 116041.94853856682,
   "signal": {
    "trend": {
-    "f": 0.057,
-    "x": 0.06,
-    "ndx": 27943.7,
-    "rv20": 34.8,
-    "above_smas": "2/7"
+    "f": 0.0,
+    "x": 0.0,
+    "ndx": 27197.2,
+    "rv20": 35.5,
+    "above_smas": "0/7"
    },
    "ibs": {
     "held": {
-     "DIA": "1 days",
-     "IWM": "1 days"
+     "DIA": "2 days",
+     "IWM": "2 days"
     },
     "regime_on": true,
     "today_ibs": {
-     "SPY": 0.517,
-     "QQQ": 0.48,
-     "IWM": 0.64,
-     "DIA": 0.653
+     "SPY": 0.161,
+     "QQQ": 0.109,
+     "IWM": 0.214,
+     "DIA": 0.117
     },
     "actions": []
    },
    "monthend": {
-    "days_left": 10,
-    "s_pct": 2.4,
+    "days_left": 9,
+    "s_pct": 0.51,
     "mes_x": 0.0,
     "provisional": "SHORT"
    },
-   "gross_x": 1.56,
-   "gross_rounded_x": 1.37
+   "gross_x": 1.5,
+   "gross_rounded_x": 1.38
   },
   "held_before": {
    "MYM": 3,
