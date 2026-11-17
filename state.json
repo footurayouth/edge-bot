@@ -797,12 +797,71 @@
     "M2K": 6
    },
    "status": "done"
+  },
+  "2026-11-17": {
+   "attempts": 0,
+   "date": "2026-11-17",
+   "targets": {
+    "MES": 0,
+    "MNQ": 0,
+    "M2K": 6,
+    "MYM": 3
+   },
+   "exact": {
+    "MES": 0.0,
+    "MNQ": 0.0,
+    "M2K": 6.32,
+    "MYM": 3.37
+   },
+   "alerts": [],
+   "capital_usd": 113873.77179501057,
+   "signal": {
+    "trend": {
+     "f": 0.0,
+     "x": 0.0,
+     "ndx": 27001.8,
+     "rv20": 35.5,
+     "above_smas": "0/7"
+    },
+    "ibs": {
+     "held": {
+      "DIA": "3 days",
+      "IWM": "3 days"
+     },
+     "regime_on": true,
+     "today_ibs": {
+      "SPY": 0.426,
+      "QQQ": 0.616,
+      "IWM": 0.228,
+      "DIA": 0.223
+     },
+     "actions": []
+    },
+    "monthend": {
+     "days_left": 8,
+     "s_pct": -0.69,
+     "mes_x": 0.0,
+     "provisional": "LONG"
+    },
+    "gross_x": 1.5,
+    "gross_rounded_x": 1.38
+   },
+   "held_before": {
+    "MYM": 3,
+    "M2K": 6
+   },
+   "orders": [],
+   "held_after": {
+    "MYM": 3,
+    "M2K": 6
+   },
+   "status": "done"
   }
  },
- "last_run": "2026-11-16 16:28 NY",
+ "last_run": "2026-11-17 16:37 NY",
  "last": {
   "attempts": 0,
-  "date": "2026-11-16",
+  "date": "2026-11-17",
   "targets": {
    "MES": 0,
    "MNQ": 0,
@@ -812,38 +871,38 @@
   "exact": {
    "MES": 0.0,
    "MNQ": 0.0,
-   "M2K": 6.35,
+   "M2K": 6.32,
    "MYM": 3.37
   },
   "alerts": [],
-  "capital_usd": 116041.94853856682,
+  "capital_usd": 113873.77179501057,
   "signal": {
    "trend": {
     "f": 0.0,
     "x": 0.0,
-    "ndx": 27197.2,
+    "ndx": 27001.8,
     "rv20": 35.5,
     "above_smas": "0/7"
    },
    "ibs": {
     "held": {
-     "DIA": "2 days",
-     "IWM": "2 days"
+     "DIA": "3 days",
+     "IWM": "3 days"
     },
     "regime_on": true,
     "today_ibs": {
-     "SPY": 0.161,
-     "QQQ": 0.109,
-     "IWM": 0.214,
-     "DIA": 0.117
+     "SPY": 0.426,
+     "QQQ": 0.616,
+     "IWM": 0.228,
+     "DIA": 0.223
     },
     "actions": []
    },
    "monthend": {
-    "days_left": 9,
-    "s_pct": 0.51,
+    "days_left": 8,
+    "s_pct": -0.69,
     "mes_x": 0.0,
-    "provisional": "SHORT"
+    "provisional": "LONG"
    },
    "gross_x": 1.5,
    "gross_rounded_x": 1.38
