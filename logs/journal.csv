@@ -11,3 +11,4 @@ time,symbol,expiry,action,qty,status,filled,avg_price,commission_usd,realized_pn
 2026-11-12 16:27,MYM,20261218,BUY,3.0,Filled,3.0,52409.0,1.83,0.0,"target 3, held 0"
 2026-11-19 16:36,M2K,20261218,SELL,4.0,Filled,4.0,2655.8,2.44,-3042.88,"target 2, held 6"
 2026-11-19 16:36,MYM,20261218,SELL,2.0,Filled,2.0,49079.0,1.22,-3332.44,"target 1, held 3"
+2026-11-23 16:36,MYM,20261218,SELL,1.0,Filled,1.0,49731.0,0.61,-1340.22,"target 0, held 1"
