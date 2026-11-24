@@ -1134,83 +1134,149 @@
     "M2K": 2
    },
    "status": "done"
+  },
+  "2026-11-24": {
+   "attempts": 0,
+   "date": "2026-11-24",
+   "targets": {
+    "MES": 0,
+    "MNQ": 0,
+    "M2K": 0,
+    "MYM": 0
+   },
+   "exact": {
+    "MES": 0.0,
+    "MNQ": 0.0,
+    "M2K": 0.0,
+    "MYM": 0.0
+   },
+   "alerts": [],
+   "capital_usd": 109713.12129830122,
+   "signal": {
+    "trend": {
+     "f": 0.0,
+     "x": 0.0,
+     "ndx": 26214.2,
+     "rv20": 47.1,
+     "above_smas": "0/7"
+    },
+    "ibs": {
+     "held": {},
+     "regime_on": false,
+     "today_ibs": {
+      "SPY": 0.756,
+      "QQQ": 0.564,
+      "IWM": 0.73,
+      "DIA": 0.935
+     },
+     "actions": [
+      {
+       "etf": "IWM",
+       "action": "SELL",
+       "why": "close>prior high"
+      }
+     ]
+    },
+    "monthend": {
+     "days_left": 3,
+     "s_pct": -4.88,
+     "mes_x": 0.0,
+     "provisional": "LONG"
+    },
+    "gross_x": 0.0,
+    "gross_rounded_x": 0.0
+   },
+   "held_before": {
+    "M2K": 2
+   },
+   "orders": [
+    {
+     "symbol": "M2K",
+     "expiry": "20261218",
+     "action": "SELL",
+     "qty": 2.0,
+     "status": "Filled",
+     "filled": 2.0,
+     "avg_price": 2687.0,
+     "commission_usd": 1.22,
+     "realized_pnl_usd": -1209.44,
+     "why": "target 0, held 2"
+    }
+   ],
+   "held_after": {},
+   "status": "done"
   }
  },
- "last_run": "2026-11-23 16:36 NY",
+ "last_run": "2026-11-24 16:41 NY",
  "last": {
   "attempts": 0,
-  "date": "2026-11-23",
+  "date": "2026-11-24",
   "targets": {
    "MES": 0,
    "MNQ": 0,
-   "M2K": 2,
+   "M2K": 0,
    "MYM": 0
   },
   "exact": {
    "MES": 0.0,
    "MNQ": 0.0,
-   "M2K": 2.04,
+   "M2K": 0.0,
    "MYM": 0.0
   },
   "alerts": [],
-  "capital_usd": 108946.87627592086,
+  "capital_usd": 109713.12129830122,
   "signal": {
    "trend": {
     "f": 0.0,
     "x": 0.0,
-    "ndx": 26746.1,
-    "rv20": 47.2,
+    "ndx": 26214.2,
+    "rv20": 47.1,
     "above_smas": "0/7"
    },
    "ibs": {
-    "held": {
-     "IWM": "7 days"
-    },
+    "held": {},
     "regime_on": false,
     "today_ibs": {
-     "SPY": 0.606,
-     "QQQ": 0.584,
-     "IWM": 0.89,
-     "DIA": 0.78
+     "SPY": 0.756,
+     "QQQ": 0.564,
+     "IWM": 0.73,
+     "DIA": 0.935
     },
     "actions": [
      {
-      "etf": "DIA",
+      "etf": "IWM",
       "action": "SELL",
       "why": "close>prior high"
      }
     ]
    },
    "monthend": {
-    "days_left": 4,
-    "s_pct": -4.66,
+    "days_left": 3,
+    "s_pct": -4.88,
     "mes_x": 0.0,
     "provisional": "LONG"
    },
-   "gross_x": 0.25,
-   "gross_rounded_x": 0.25
+   "gross_x": 0.0,
+   "gross_rounded_x": 0.0
   },
   "held_before": {
-   "MYM": 1,
    "M2K": 2
   },
   "orders": [
    {
-    "symbol": "MYM",
+    "symbol": "M2K",
     "expiry": "20261218",
     "action": "SELL",
-    "qty": 1.0,
+    "qty": 2.0,
     "status": "Filled",
-    "filled": 1.0,
-    "avg_price": 49731.0,
-    "commission_usd": 0.61,
-    "realized_pnl_usd": -1340.22,
-    "why": "target 0, held 1"
+    "filled": 2.0,
+    "avg_price": 2687.0,
+    "commission_usd": 1.22,
+    "realized_pnl_usd": -1209.44,
+    "why": "target 0, held 2"
    }
   ],
-  "held_after": {
-   "M2K": 2
-  },
+  "held_after": {},
   "status": "done"
  }
 }
