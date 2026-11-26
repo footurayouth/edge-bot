@@ -18,8 +18,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"     # same as the Edge bot
       - run: pip install -q pandas==2.3.1 numpy==2.3.2
-      - run: python3 qqq_daytrade/ledger.py
+      - run: python qqq_daytrade/ledger.py
       - name: Save
         run: |
           git config user.name "qqq-ledger"; git config user.email "qqq-ledger@users.noreply.github.com"
