@@ -9,3 +9,5 @@ No Mac needed. Do not log in to the paper account elsewhere at that time (IBKR a
   and the **Actions** tab (each run's summary).
 - **Test without orders:** Actions > Edge Stack paper bot > Run workflow > mode `test`.
 - **Pause:** Actions > Edge Stack paper bot > `...` > Disable workflow.
+
+- **QQQ day trade (paper ledger, no orders):** [qqq_daytrade/README.md](qqq_daytrade/README.md) compares it with this bot and the S&P 500 from the same start.
