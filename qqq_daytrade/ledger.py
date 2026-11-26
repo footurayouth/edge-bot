@@ -29,6 +29,7 @@ LOOK = 14
 
 
 def yahoo_5m():
+    """QQQ 5m bars + each session's regular hours (Yahoo meta.tradingPeriods: real half days included)."""
     u = "https://query1.finance.yahoo.com/v8/finance/chart/QQQ?interval=5m&range=60d&includePrePost=false"
     for a in range(5):
         try:
@@ -40,33 +41,48 @@ def yahoo_5m():
         raise SystemExit("Yahoo unavailable")
     r = j["chart"]["result"][0]; q = r["indicators"]["quote"][0]
     df = pd.DataFrame({k: q[k] for k in ("open", "high", "low", "close", "volume")},
-                      index=pd.to_datetime(r["timestamp"], unit="s", utc=True).tz_convert(NY)).dropna()
-    df = df[df.volume > 0] if (df.volume > 0).mean() > 0.9 else df
-    return df
+                      index=pd.to_datetime(r["timestamp"], unit="s", utc=True).tz_convert(NY))
+    df = df.dropna(subset=["open", "high", "low", "close"])    # zero-volume bars with real prices are kept (as engine.load)
+    df["volume"] = df["volume"].fillna(0.0)
+    sessions = {}
+    for per in r["meta"]["tradingPeriods"]:
+        p0 = per[0] if isinstance(per, list) else per
+        a = pd.Timestamp(p0["start"], unit="s", tz="UTC").tz_convert(NY); b = pd.Timestamp(p0["end"], unit="s", tz="UTC").tz_convert(NY)
+        sessions[a.date()] = (a.hour * 60 + a.minute, b.hour * 60 + b.minute)
+    return df, sessions
 
 
-def build_days(df):
-    """Same day arrays as orb_vwap/engine.py load(): RTH 09:30-15:55 bars, VWAP from typical price, prev close."""
+def build_days(df, sessions):
+    """Same day arrays as orb_vwap/engine.py load() + add_sigma(): RTH bars from 09:30 to the session's real end
+    (15:55 last bar, 12:55 on half days), VWAP from typical price, prev close, 14-day noise per 5m slot.
+    Every session in `sessions` gets an entry; `complete` = no missing 5m bar, `prev_ok` = previous session complete."""
     df = df.copy()
     df["mins"] = df.index.hour * 60 + df.index.minute
-    df = df[(df.mins >= 570) & (df.mins < 960)]
     df["date"] = df.index.date
+    G = dict(tuple(df.groupby("date", sort=True)))
     days = []
-    for d, g in df.groupby("date", sort=True):
-        if g["mins"].iloc[0] != 570 or len(g) < 40:
-            continue
-        aft = g["mins"] >= 780
-        if aft.any() and (~aft).sum() > 10 and g["volume"][aft].median() < 0.05 * g["volume"][~aft].median():
-            g = g[~aft]   # half day: drop thin post-13:00 prints
+    for d in sorted(sessions):
+        s0, s1 = sessions[d]
+        g = G.get(d)
+        if g is not None:
+            g = g[(g["mins"] >= s0) & (g["mins"] < s1)]
+        if g is None or len(g) < 3:
+            days.append(dict(date=pd.Timestamp(d), complete=False, empty=True)); continue
         o, h, l, c, v = (g[k].to_numpy(float) for k in ("open", "high", "low", "close", "volume"))
         tp = (h + l + c) / 3
         vw = np.cumsum(tp * v) / np.maximum(np.cumsum(v), 1e-9)
-        days.append(dict(date=pd.Timestamp(d), o=o, h=h, l=l, c=c, v=v, vwap=vw, mins=g["mins"].to_numpy()))
+        complete = s0 == 570 and len(g) == (s1 - s0) // 5 and g["mins"].iloc[0] == 570
+        days.append(dict(date=pd.Timestamp(d), o=o, h=h, l=l, c=c, v=v, vwap=vw, mins=g["mins"].to_numpy(),
+                         complete=bool(complete), empty=False, starts_930=bool(g["mins"].iloc[0] == 570),
+                         ends_ok=bool(g["mins"].iloc[-1] == s1 - 5)))
     for i, x in enumerate(days):
-        x["prevC"] = days[i - 1]["c"][-1] if i > 0 else np.nan
+        p = days[i - 1] if i > 0 else None
+        x["prev_ok"] = bool(p is not None and p["complete"])
+        x["prevC"] = p["c"][-1] if p is not None and not p["empty"] else np.nan
     mv = np.full((len(days), 78), np.nan)
     for i, x in enumerate(days):
-        mv[i, (x["mins"] - 570) // 5] = np.abs(x["c"] / x["o"][0] - 1)
+        if not x["empty"]:
+            mv[i, (x["mins"] - 570) // 5] = np.abs(x["c"] / x["o"][0] - 1)
     for i, x in enumerate(days):
         x["sigma"] = np.nanmean(mv[i - LOOK:i], axis=0) if i >= LOOK else None
     return days
@@ -106,13 +122,13 @@ def trade_day(day, cost_bp=COST_BP):
 
 def edge_rows():
     p = ROOT / "logs" / "performance.csv"
-    e = pd.read_csv(p, parse_dates=["date"])
+    e = pd.read_csv(p, parse_dates=["date"]).drop_duplicates("date", keep="last")
     return e.set_index("date")[["equity_usd", "spy_close"]]
 
 
 def main():
     now = datetime.now(NY)
-    days = build_days(yahoo_5m())
+    days = build_days(*yahoo_5m())
     dp = HERE / "days.csv"
     old = pd.read_csv(dp, parse_dates=["date"]) if dp.exists() else pd.DataFrame(columns=["date", "ret_1x", "trades"])
     have = set(old.date)
@@ -120,9 +136,14 @@ def main():
     for x in days:
         d = x["date"]
         finished = d.date() < now.date() or (now.hour * 60 + now.minute) >= 16 * 60 + 30
-        if d < pd.Timestamp(START) or d in have or not finished:
+        if d < pd.Timestamp(START) or d in have or not finished or x["empty"] or not x["starts_930"] or not x["ends_ok"]:   # never book a day without its close
             continue
+        old_enough = (pd.Timestamp(now.date()) - d).days >= 2        # Yahoo gaps that never fill: accept, flagged
+        if not (x["complete"] and x["prev_ok"]) and not old_enough:
+            print(d.date(), "data incomplete, retry next run"); continue
         ret, log = trade_day(x)
+        if not (x["complete"] and x["prev_ok"]):
+            log = ["[incomplete Yahoo data]"] + log
         if ret is None:
             continue
         new.append(dict(date=d, ret_1x=round(ret, 6), trades="; ".join(log) or "no trade"))
@@ -157,7 +178,7 @@ def main():
              f"| Edge Stack bot (as of {le.date if le is not None else '-'}) | {fmt(None if le is None else le.edge_pct)} |\n"
              f"| S&P 500 (SPY price, same date) | {fmt(None if le is None else le.spy_pct)} |\n")
     readme = (HERE / "README.md").read_text().split("<!-- table -->")[0]
-    (HERE / "README.md").write_text(readme + "<!-- table -->\n" + table + f"\nUpdated {now:%Y-%m-%d %H:%M} New York, last day {last.date}.\n")
+    (HERE / "README.md").write_text(readme + "<!-- table -->\n" + table + f"\nLast day {last.date} (Edge/SPY columns fill in after the Edge bot's run).\n")
     print(table)
 
 
