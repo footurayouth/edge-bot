@@ -75,16 +75,20 @@ def build_days(df, sessions):
         days.append(dict(date=pd.Timestamp(d), o=o, h=h, l=l, c=c, v=v, vwap=vw, mins=g["mins"].to_numpy(),
                          complete=bool(complete), empty=False, starts_930=bool(g["mins"].iloc[0] == 570),
                          ends_ok=bool(g["mins"].iloc[-1] == s1 - 5)))
-    for i, x in enumerate(days):
+    ne = [i for i, x in enumerate(days) if not x["empty"]]      # like engine.load: bad days are left out of
+    for i, x in enumerate(days):                                 # prev close and the 14-day noise window
+        prev = [j for j in ne if j < i]
         p = days[i - 1] if i > 0 else None
         x["prev_ok"] = bool(p is not None and p["complete"])
-        x["prevC"] = p["c"][-1] if p is not None and not p["empty"] else np.nan
-    mv = np.full((len(days), 78), np.nan)
-    for i, x in enumerate(days):
-        if not x["empty"]:
-            mv[i, (x["mins"] - 570) // 5] = np.abs(x["c"] / x["o"][0] - 1)
-    for i, x in enumerate(days):
-        x["sigma"] = np.nanmean(mv[i - LOOK:i], axis=0) if i >= LOOK else None
+        x["prevC"] = days[prev[-1]]["c"][-1] if prev else np.nan
+        win = prev[-LOOK:]
+        if len(win) == LOOK:
+            mv = np.full((LOOK, 78), np.nan)
+            for r, j in enumerate(win):
+                y = days[j]; mv[r, (y["mins"] - 570) // 5] = np.abs(y["c"] / y["o"][0] - 1)
+            x["sigma"] = np.nanmean(mv, axis=0)
+        else:
+            x["sigma"] = None
     return days
 
 
@@ -136,9 +140,16 @@ def main():
     for x in days:
         d = x["date"]
         finished = d.date() < now.date() or (now.hour * 60 + now.minute) >= 16 * 60 + 30
-        if d < pd.Timestamp(START) or d in have or not finished or x["empty"] or not x["starts_930"] or not x["ends_ok"]:   # never book a day without its close
+        if d < pd.Timestamp(START) or d in have or not finished:
             continue
         old_enough = (pd.Timestamp(now.date()) - d).days >= 2        # Yahoo gaps that never fill: accept, flagged
+        if x["empty"] or not x["starts_930"] or not x["ends_ok"]:   # never trade a day without its open and close
+            if old_enough:
+                new.append(dict(date=d, ret_1x=0.0, trades="[no usable Yahoo data - day not counted]"))
+                print(d.date(), "WARNING no usable Yahoo data, booked as 0")
+            else:
+                print(d.date(), "data incomplete, retry next run")
+            continue
         if not (x["complete"] and x["prev_ok"]) and not old_enough:
             print(d.date(), "data incomplete, retry next run"); continue
         ret, log = trade_day(x)
