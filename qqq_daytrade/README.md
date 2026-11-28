@@ -17,3 +17,11 @@ but single days can differ by up to ~0.35% because the 9:30 opening print differ
 Files: `days.csv` (each day's trades and 1x return), `performance.csv` (equity and % vs Edge and S&P 500).
 
 <!-- table -->
+| since 2026-11-27 (start $109,812 each) | total |
+|---|---|
+| QQQ day trade 1x | +0.00% |
+| QQQ day trade 3x | +0.00% |
+| Edge Stack bot (as of 2026-11-27) | -0.35% |
+| S&P 500 (SPY price, same date) | +1.67% |
+
+Last day 2026-11-27 (Edge/SPY columns fill in after the Edge bot's run).
